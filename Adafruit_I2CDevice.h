@@ -6,9 +6,9 @@
 ///< The class which defines how we will talk to this device over I2C
 class Adafruit_I2CDevice {
 public:
-  Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire = &Wire);
+  Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire = &Wire, bool compatible_3v = false);
   uint8_t address(void);
-  bool begin(bool addr_detect = true, bool compatible_3v = false);
+  bool begin(bool addr_detect = true);
   bool detected(void);
 
   bool read(uint8_t *buffer, size_t len, bool stop = true);
@@ -29,6 +29,7 @@ private:
   bool _begun;
   size_t _maxBufferSize;
   bool _read(uint8_t *buffer, size_t len, bool stop);
+  bool _3vcompatible;
 };
 
 #endif // Adafruit_I2CDevice_h

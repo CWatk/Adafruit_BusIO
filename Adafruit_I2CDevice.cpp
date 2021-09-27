@@ -8,9 +8,10 @@
  *    @param  addr The 7-bit I2C address for the device
  *    @param  theWire The I2C bus to use, defaults to &Wire
  */
-Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire) {
+Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire, bool compatible_3v) {
   _addr = addr;
   _wire = theWire;
+  _3vcompatible = compatible_3v;
   _begun = false;
 #ifdef ARDUINO_ARCH_SAMD
   _maxBufferSize = 250; // as defined in Wire.h's RingBuffer
@@ -26,10 +27,10 @@ Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire) {
  * on a scan!
  *    @return True if I2C initialized and a device with the addr found
  */
-bool Adafruit_I2CDevice::begin(bool addr_detect, bool compatible_3v) {
+bool Adafruit_I2CDevice::begin(bool addr_detect) {
   _wire->begin();
 
-  if(compatible_3v){
+  if(_3vcompatible){
 	//disable pullup resistors to keep 3.3v bus compatibility
 	digitalWrite(SDA,0);
 	digitalWrite(SCL,0);
