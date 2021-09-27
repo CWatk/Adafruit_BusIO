@@ -26,8 +26,14 @@ Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire) {
  * on a scan!
  *    @return True if I2C initialized and a device with the addr found
  */
-bool Adafruit_I2CDevice::begin(bool addr_detect) {
+bool Adafruit_I2CDevice::begin(bool addr_detect, bool compatible_3v) {
   _wire->begin();
+
+  if(compatible_3v){
+	//disable pullup resistors to keep 3.3v bus compatibility
+	digitalWrite(SDA,0);
+	digitalWrite(SCL,0);
+  }
   _begun = true;
 
   if (addr_detect) {
